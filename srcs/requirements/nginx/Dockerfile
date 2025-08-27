@@ -6,7 +6,7 @@ COPY ./conf /etc/nginx/conf
 
 RUN mkdir /etc/nginx/cert
 
-RUN apk update && \
+RUN apk update --no-cache && \
 apk add --no-cache nginx openssl && \
 openssl req -newkey rsa:2048 -nodes \
     -x509 -days 365 \

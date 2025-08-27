@@ -6,10 +6,21 @@ services:
       dockerfile: Dockerfile
     ports: 
       - "443:443"
+    restart:
+      always
+    env_file:
+      - .env
   mariadb:
     container_name: "mariadb"
     build:
       context: requirements/mariadb
       dockerfile: Dockerfile
-    ports: 
-      - "3306:3305"
+    # restart:
+    #   always
+    env_file:
+      - .env
+    volumes:
+      - mariadb:/var/lib/mysql
+
+volumes:
+  mariadb:
