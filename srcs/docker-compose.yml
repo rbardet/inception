@@ -15,12 +15,30 @@ services:
     build:
       context: requirements/mariadb
       dockerfile: Dockerfile
-    # restart:
-    #   always
     env_file:
       - .env
+    secrets:
+      - db_root_password
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+    restart:
+      always
     volumes:
       - mariadb:/var/lib/mysql
+  wordpress:
+    container_name: "wordpress"
+    build:
+      context: requirements/wordpress
+      dockerfile: Dockerfile
+    restart:
+      always
+    env_file:
+      - .env
 
 volumes:
   mariadb:
+
+secrets:
+  db_root_password:
+    file: ../secrets/db_root_password.txt
