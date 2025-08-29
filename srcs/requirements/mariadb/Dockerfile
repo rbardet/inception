@@ -3,7 +3,7 @@ FROM alpine:3.22.0
 RUN mkdir -p /var/lib/mysql /run/mysqld
 
 RUN apk update --no-cache && \
-apk add --no-cache mariadb mariadb-client && \
+apk add --no-cache mariadb mariadb-client gettext && \
 mariadb-install-db --user=mysql --datadir=/var/lib/mysql
 
 EXPOSE 3306
