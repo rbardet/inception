@@ -14,8 +14,6 @@ services:
       always
     env_file:
       - .env
-    environment:
-      - DOMAIN_NAME=${DOMAIN_NAME}
     volumes:
       - wordpress:/var/www/html
   mariadb:
@@ -27,11 +25,6 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
-    secrets:
-      - db_root_password
-    environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
     restart:
       always
     volumes:
@@ -54,11 +47,18 @@ services:
 
 networks:
   Inception:
+    name: Inception
 
 volumes:
   mariadb:
+    # driver: local
+    # driver_opts:
+    #   o: bind
+    #   type: none
+    #   device: /home/rbardet-/data/mariadb
   wordpress:
-
-secrets:
-  db_root_password:
-    file: ../secrets/db_root_password.txt
+    # driver: local
+    # driver_opts:
+    #   o: bind
+    #   type: none
+    #   device: /home/rbardet-/data/wordpress

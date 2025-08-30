@@ -6,5 +6,7 @@ down:
 	sudo docker compose -f ${DOCKER_COMPOSE} down
 start:
 	sudo docker compose -f ${DOCKER_COMPOSE} up
+clean:
+	sudo docker system prune -a
 
-PHONY: up down start
+PHONY: up down start clean
