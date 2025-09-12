@@ -23,7 +23,6 @@ EOF
 
 chown -R www:www "$WWW_DIR"
 
-# WordPress core install if not installed
 if ! wp core is-installed --path="$WWW_DIR" --allow-root; then
     wp core install \
         --url="$DOMAIN_NAME" \
