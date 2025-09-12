@@ -4,12 +4,10 @@ set -e
 WWW_DIR="/var/www/html"
 PHP_FPM_CONF="/tmp/php-fpm.conf"
 
-# Wait for MariaDB
 until mariadb-admin ping -h "${MYSQL_HOST:-mariadb}" -u"$MYSQL_USER" -p"$MYSQL_USER_PASSWORD" --silent; do
     sleep 2
 done
 
-# Create wp-config.php
 cat > "$WWW_DIR/wp-config.php" <<EOF
 <?php
 define('DB_NAME', '${MYSQL_DATABASE}');
@@ -38,10 +36,8 @@ if ! wp core is-installed --path="$WWW_DIR" --allow-root; then
         --allow-root
 fi
 
-# Ensure admin password is set
 wp user update "$WORDPRESS_ADMIN_USER" --user_pass="$WORDPRESS_ADMIN_PASS" --allow-root
 
-# Create normal user if not exists
 if ! wp user get "$WORDPRESS_USER" --path="$WWW_DIR" --allow-root >/dev/null 2>&1; then
     wp user create "$WORDPRESS_USER" "$WORDPRESS_USER_EMAIL" \
         --role=subscriber \
@@ -50,7 +46,6 @@ if ! wp user get "$WORDPRESS_USER" --path="$WWW_DIR" --allow-root >/dev/null 2>&
         --allow-root
 fi
 
-# Minimal PHP-FPM config
 cat > "$PHP_FPM_CONF" <<EOF
 [global]
 pid = /tmp/php-fpm.pid
