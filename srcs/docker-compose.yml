@@ -6,7 +6,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "443:443"
-      - "8080:80"
     networks:
       - Inception
     depends_on:
@@ -67,3 +66,4 @@ volumes:
       type: none
       o: bind
       device: /home/rbardet-/data/wordpress
+

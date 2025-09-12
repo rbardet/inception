@@ -10,6 +10,6 @@ RUN chmod +x /tools/start.sh
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 80 443
+EXPOSE 443
 
 CMD ["/tools/start.sh"]
