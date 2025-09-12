@@ -1,19 +1,15 @@
 FROM alpine:3.22.0
 
-WORKDIR /etc/nginx
+RUN apk update --no-cache && apk add --no-cache nginx openssl bash
 
-COPY ./conf /etc/nginx/conf
+RUN mkdir -p /etc/nginx/cert /var/www/html /etc/nginx/conf.d
 
-RUN mkdir /etc/nginx/cert
+COPY ./tools/start.sh /tools/start.sh
 
-RUN apk update --no-cache && \
-    apk add --no-cache nginx openssl && \
-    openssl req -newkey rsa:2048 -nodes \
-    -x509 -days 365 \
-    -keyout /etc/nginx/cert/ssl_key.crt \
-    -out /etc/nginx/cert/ssl_certificate.crt \
-    -subj "/C=FR/ST=Normandie/L=Le Havre/O=42/OU=Student/CN=rbardet-.42.fr"
+RUN chmod +x /tools/start.sh
 
-EXPOSE 443
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-CMD [ "nginx", "-g", "daemon off;" ]
+EXPOSE 80 443
+
+CMD ["/tools/start.sh"]
